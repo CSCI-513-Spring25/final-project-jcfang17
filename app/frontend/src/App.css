@@ -1,0 +1,215 @@
+/* Reset default margin/padding */
+body, h1, h2, p, button, div {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Include padding and border in element's total width and height */
+}
+
+/* Basic App Layout */
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  min-height: 100vh; /* Ensure app takes full viewport height */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f0f0; /* Light background for the page */
+}
+
+.App h1 {
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.status-message {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 20px;
+  padding: 8px 15px;
+  border-radius: 4px;
+  background-color: #e0e0e0; /* Default status background */
+  color: #333;
+  min-height: 1.5em; /* Ensure it doesn't collapse when empty */
+  text-align: center;
+}
+
+.status-message.game-over {
+  background-color: #ffdddd; /* Light red for game over */
+  color: #d8000c;
+  border: 1px solid #d8000c;
+}
+
+/* Add a class for game won */
+.status-message.game-won {
+  background-color: #d4edda; /* Light green for win */
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+/* Container for Map and Controls */
+.game-container {
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+  justify-content: center; /* Center items if they wrap */
+  gap: 30px; /* Space between map and controls */
+  width: 100%; /* Take available width */
+  max-width: 1200px; /* Optional: max width for very large screens */
+  margin-bottom: 20px;
+}
+
+/* MapView specific container (optional, if needed) */
+.MapView {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.MapView h2 {
+  margin-bottom: 10px;
+  color: #555;
+  font-size: 1.3em;
+}
+
+/* Map Grid Style (Moved from inline) */
+.map-grid {
+  position: relative;
+  border: 3px solid #003366; /* Darker navy border */
+  background-color: #add8e6; /* Light blue ocean */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  /* width and height will be set via inline style based on props */
+}
+
+/* Base style for items on the map */
+.map-element {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  /* CELL_SIZE will be set via inline style */
+}
+
+.map-element img {
+  max-width: 90%; /* Slightly smaller than cell */
+  max-height: 90%;
+  object-fit: contain;
+  display: block; /* Remove extra space below image */
+}
+
+/* Z-indexes and specific looks */
+.map-element.player { z-index: 10; }
+.map-element.pirate { z-index: 9; }
+.map-element.treasure {
+  z-index: 8;
+  font-size: 1.5em; /* Make treasure emoji bigger */
+  text-shadow: 0 0 3px gold;
+}
+.map-element.monster {
+  z-index: 7;
+  font-size: 1.7em; /* Make monster emoji bigger */
+}
+.map-element.island { z-index: 5; }
+
+
+/* Control Panel Styles */
+.ControlPanel {
+  border: 1px solid #ccc;
+  padding: 15px 20px;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 200px; /* Ensure it doesn't get too squished */
+}
+
+.ControlPanel h2 {
+  margin-bottom: 15px;
+  color: #555;
+  font-size: 1.3em;
+}
+
+.ControlPanel .controls-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns for arrow keys layout */
+  grid-template-rows: repeat(3, auto);
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+/* Place buttons in grid */
+.ControlPanel .controls-grid .up-button { grid-area: 1 / 2 / 2 / 3; }
+.ControlPanel .controls-grid .left-button { grid-area: 2 / 1 / 3 / 2; }
+.ControlPanel .controls-grid .down-button { grid-area: 2 / 2 / 3 / 3; }
+.ControlPanel .controls-grid .right-button { grid-area: 2 / 3 / 3 / 4; }
+
+.ControlPanel button {
+  padding: 10px 15px;
+  font-size: 1em;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  min-width: 50px; /* Ensure buttons have some width */
+  min-height: 40px;
+}
+
+.ControlPanel button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.ControlPanel button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.ControlPanel .disabled-text {
+  color: #dc3545; /* Bootstrap danger color */
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* Restart Button Style */
+.restart-button {
+  margin-top: 15px; /* Space above the button */
+  padding: 12px 25px;
+  font-size: 1.1em;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  background-color: #28a745; /* Green color */
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.restart-button:hover:not(:disabled) {
+  background-color: #218838; /* Darker green on hover */
+}
+
+.restart-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Basic Responsiveness */
+@media (max-width: 768px) {
+  .game-container {
+    flex-direction: column; /* Stack map and controls vertically */
+    align-items: center;
+  }
+
+  .ControlPanel {
+    width: 90%; /* Take more width on smaller screens */
+    max-width: 400px; /* But not too wide */
+  }
+
+  .App h1 {
+    font-size: 1.8em;
+  }
+} 
