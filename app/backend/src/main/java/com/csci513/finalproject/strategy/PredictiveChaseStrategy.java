@@ -62,6 +62,11 @@ public class PredictiveChaseStrategy implements MovementStrategy {
         System.out.println("PredictiveChaseStrategy target updated to: " + this.targetPosition + ", Last Dir: " + lastDirection + ", Prev Last Dir: " + secondLastDirection);
     }
 
+    // Getter for the target position
+    public Position getTarget() {
+        return targetPosition;
+    }
+
     // Helper to determine direction string from dx, dy
     private String calculateDirection(int dx, int dy) {
         if (Math.abs(dx) >= Math.abs(dy)) { // Prioritize horizontal

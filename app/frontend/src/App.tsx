@@ -14,6 +14,8 @@ function App() {
   const pirates = gameState?.pirates ?? [];
   const islands = gameState?.map?.islands ?? [];
   const monsters = gameState?.monsters ?? [];
+  // Extract strategy switchers, default to empty array
+  const strategySwitchers = gameState?.map?.strategySwitchers ?? [];
   const status = gameState?.status ?? { isGameOver: false, message: "Status unknown" };
 
   // Determine status class based on game state
@@ -97,6 +99,7 @@ function App() {
             treasure={treasurePos}
             islands={islands}
             monsters={monsters}
+            strategySwitchers={strategySwitchers}
          />
         <ControlPanel
             onMove={sendMoveAndRefresh}

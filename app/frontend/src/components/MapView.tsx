@@ -18,11 +18,12 @@ interface MapViewProps {
     treasure: CharacterPosition;
     islands?: CharacterPosition[]; // Receive island positions
     monsters?: CharacterPosition[]; // Add monsters prop
+    strategySwitchers?: CharacterPosition[]; // Add strategy switchers prop
 }
 
 const CELL_SIZE = 30; // Size of each grid cell in pixels
 
-function MapView({ width, height, player, pirates, treasure, islands = [], monsters = [] }: MapViewProps) {
+function MapView({ width, height, player, pirates, treasure, islands = [], monsters = [], strategySwitchers = [] }: MapViewProps) {
 
     // Calculate grid dimensions for inline style (needed for dynamic size)
     const gridStyle: React.CSSProperties = {
@@ -104,6 +105,18 @@ function MapView({ width, height, player, pirates, treasure, islands = [], monst
                          🐙 {/* Emoji remains as content */}
                      </div>
                  ))}
+
+                {/* Render Strategy Switchers */}
+                {strategySwitchers.map((switcher, index) => (
+                    <div
+                        key={`switcher-${index}`}
+                        className="map-element strategy-switcher" /* Use classes */
+                        style={getElementStyle(switcher.x, switcher.y)} /* Apply dynamic position/size */
+                        title={`Strategy Switcher (${switcher.x}, ${switcher.y})`}
+                    >
+                        🔪 {/* Knife emoji */}
+                    </div>
+                ))}
 
                 {/* Grid background/cells are handled by .map-grid style */}
             </div>

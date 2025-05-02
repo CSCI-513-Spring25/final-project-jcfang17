@@ -6,6 +6,7 @@ interface MapData {
     width: number;
     height: number;
     islands?: CharacterPosition[]; // Add islands array (optional)
+    strategySwitchers?: CharacterPosition[]; // Add strategy switchers array (optional)
     // grid?: any[][]; // Add later if needed for terrain
 }
 

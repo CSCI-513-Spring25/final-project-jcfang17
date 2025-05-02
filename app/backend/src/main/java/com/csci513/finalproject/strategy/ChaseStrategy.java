@@ -16,6 +16,11 @@ public class ChaseStrategy implements MovementStrategy {
         System.out.println("ChaseStrategy target updated to: " + targetPosition);
     }
 
+    // Getter for the target position
+    public Position getTarget() {
+        return targetPosition;
+    }
+
     @Override
     public Position move(Position currentPosition) {
         if (targetPosition == null) {

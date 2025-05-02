@@ -60,7 +60,11 @@ public class OceanMap {
 
         // Place treasure, ensuring it's not on an island or start pos
         placeTreasureRandomly();
-        System.out.println("OceanMap grid initialized with islands.");
+
+        // Place strategy switcher cells
+        placeStrategySwitchers(3); // Place 3 switcher cells
+
+        System.out.println("OceanMap grid initialized with islands and switchers.");
     }
 
     // Helper to place a number of single-cell islands randomly
@@ -123,6 +127,40 @@ public class OceanMap {
 
     public List<Position> getIslandPositions() {
          return islandPositions;
+    }
+
+    // New method to get positions of all strategy switcher cells
+    public List<Position> getStrategySwitcherPositions() {
+        List<Position> switcherPositions = new ArrayList<>();
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (grid[y][x].isStrategySwitcher()) {
+                    switcherPositions.add(new Position(x, y));
+                }
+            }
+        }
+        return switcherPositions;
+    }
+
+    // Helper to place a number of strategy switcher cells randomly
+    private void placeStrategySwitchers(int numberOfSwitchers) {
+        System.out.println("Placing " + numberOfSwitchers + " strategy switchers...");
+        int switchersPlaced = 0;
+        while (switchersPlaced < numberOfSwitchers) {
+            int x = random.nextInt(width);
+            int y = random.nextInt(height);
+            Position potentialPos = new Position(x, y);
+            // Avoid placing on start (0,0), islands, treasure, or existing switchers
+            if (!isIsland(x, y) &&
+                !(x == 0 && y == 0) &&
+                !potentialPos.equals(treasurePosition) &&
+                !getCell(x,y).isStrategySwitcher()) // Check if already a switcher
+            {
+                getCell(x, y).setStrategySwitcher(true);
+                switchersPlaced++;
+                System.out.println("Placed strategy switcher at: [" + x + "," + y + "]");
+            }
+        }
     }
 
     // TODO: Add method to place islands on the map - Replaced by placeIslands helper

@@ -8,6 +8,7 @@ import com.csci513.finalproject.strategy.PatrolStrategy;
 import com.csci513.finalproject.strategy.PredictiveChaseStrategy;
 import com.csci513.finalproject.utils.Position;
 import com.csci513.finalproject.model.map.OceanMap;
+import com.csci513.finalproject.model.map.MapCell;
 
 import java.util.Random;
 
@@ -41,21 +42,52 @@ public abstract class PirateShip extends GameCharacter implements Observer {
             if (OceanMap.getInstance().isIsland(nextX, nextY)) {
                  System.out.println(getClass().getSimpleName() + " tried to move onto an island at [" + nextX + "," + nextY + "]");
                  nextPosition = currentPosition; // Stay put if moving onto island
+            } else {
+                // Check if the destination cell is a strategy switcher
+                MapCell destinationCell = OceanMap.getInstance().getCell(nextX, nextY);
+                if (destinationCell != null && destinationCell.isStrategySwitcher()) {
+                    System.out.println(getClass().getSimpleName() + " landed on a strategy switcher cell at [" + nextX + "," + nextY + "]!");
+                    switchStrategy();
+                }
             }
 
+            // Set position if it actually changed
             if (!currentPosition.equals(nextPosition)) {
                 setPosition(nextPosition);
-                 System.out.println(getClass().getSimpleName() + " moved to [" + getPosition().getX() + "," + getPosition().getY() + "] using " + movementStrategy.getClass().getSimpleName());
+                System.out.println(getClass().getSimpleName() + " moved to [" + getPosition().getX() + "," + getPosition().getY() + "] using " + movementStrategy.getClass().getSimpleName());
             } else {
-                 System.out.println(getClass().getSimpleName() + " stayed at [" + getPosition().getX() + "," + getPosition().getY() + "] (Island or no move from strategy)");
+                System.out.println(getClass().getSimpleName() + " stayed at [" + getPosition().getX() + "," + getPosition().getY() + "] (Island or no move from strategy)");
             }
         } else {
             System.out.println(getClass().getSimpleName() + " has no strategy!");
         }
     }
 
+    // Helper method to switch between chase strategies
+    private void switchStrategy() {
+        if (this.movementStrategy instanceof ChaseStrategy && !(this.movementStrategy instanceof PredictiveChaseStrategy)) {
+            // Switch from Standard Chase to Predictive Chase
+            Position currentTarget = ((ChaseStrategy) this.movementStrategy).getTarget();
+            this.movementStrategy = new PredictiveChaseStrategy(currentTarget);
+            System.out.println(getClass().getSimpleName() + " switched to PredictiveChaseStrategy.");
+        } else if (this.movementStrategy instanceof PredictiveChaseStrategy) {
+            // Switch from Predictive Chase to Standard Chase
+            Position currentTarget = ((PredictiveChaseStrategy) this.movementStrategy).getTarget();
+            this.movementStrategy = new ChaseStrategy(currentTarget);
+            System.out.println(getClass().getSimpleName() + " switched to ChaseStrategy.");
+        } else {
+            // If it's Patrol or some other strategy, do nothing
+            System.out.println(getClass().getSimpleName() + " landed on switcher, but current strategy (" + this.movementStrategy.getClass().getSimpleName() + ") is not switchable.");
+        }
+    }
+
     public void setMovementStrategy(MovementStrategy movementStrategy) {
         this.movementStrategy = movementStrategy;
+    }
+
+    // Getter for testing purposes
+    public MovementStrategy getMovementStrategy() {
+        return this.movementStrategy;
     }
 
     // Observer method

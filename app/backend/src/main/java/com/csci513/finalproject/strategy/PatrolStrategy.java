@@ -28,8 +28,6 @@ public class PatrolStrategy implements MovementStrategy {
                 break;
         }
 
-        // TODO: Add boundary checks (using OceanMap instance?) to prevent moving off grid or onto islands.
-        // This strategy might need access to the map.
 
         System.out.println("PatrolStrategy: Moving randomly from [" + currentX + "," + currentY +
                            "] -> [" + nextX + "," + nextY + "]");

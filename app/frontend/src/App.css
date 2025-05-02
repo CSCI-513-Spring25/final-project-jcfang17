@@ -108,6 +108,11 @@ body, h1, h2, p, button, div {
   z-index: 7;
   font-size: 1.7em; /* Make monster emoji bigger */
 }
+.map-element.strategy-switcher {
+  z-index: 6; /* Below monsters, above islands */
+  font-size: 1.6em; /* Make knife emoji bigger */
+  /* Add other styles if needed, e.g., background */
+}
 .map-element.island { z-index: 5; }
 
 

@@ -74,6 +74,17 @@ public class WebServer extends NanoHTTPD {
             islandsJson.put(islandJson);
         });
         mapJson.put("islands", islandsJson);
+
+        // Add strategy switcher positions
+        JSONArray switchersJson = new JSONArray();
+        gameManager.getOceanMap().getStrategySwitcherPositions().forEach(switcherPos -> {
+            JSONObject switcherJson = new JSONObject();
+            switcherJson.put("x", switcherPos.getX());
+            switcherJson.put("y", switcherPos.getY());
+            switchersJson.put(switcherJson);
+        });
+        mapJson.put("strategySwitchers", switchersJson);
+
         // TODO: Add grid details if needed by frontend for rendering terrain
 
         JSONObject playerJson = new JSONObject();
