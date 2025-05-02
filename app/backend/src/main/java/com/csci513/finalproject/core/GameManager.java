@@ -23,31 +23,26 @@ public class GameManager {
     private ColumbusShip columbusShip;
     private List<PirateShip> pirateShips;
     private List<SeaMonster> seaMonsters;
-    private FeatureGroup monsterZone; // Optional: For Composite Pattern demo
+    private FeatureGroup monsterZone; 
     private Random random = new Random();
     private final int mapWidth = 20; // Define map size constants
     private final int mapHeight = 20;
 
     public GameManager() {
         // Initialize map (using Singleton)
-        // Make map slightly larger as per requirements
-        this.oceanMap = OceanMap.getInstance(mapWidth, mapHeight); // Use constants
-        initializeGame(); // Call the new initialization method
+        this.oceanMap = OceanMap.getInstance(mapWidth, mapHeight); 
+        initializeGame(); 
     }
 
     // Method to initialize or reset the game state
     private synchronized void initializeGame() {
         System.out.println("Initializing/Resetting game...");
-        // Re-fetch or ensure map instance exists
-        // If map structure could change (e.g., islands placed randomly), might need more complex reset
         this.oceanMap = OceanMap.getInstance(mapWidth, mapHeight);
-        // Reset game state flags and message
-        this.gameState = new GameState(); // Create a new GameState object
-        // Clear existing character lists
+        this.gameState = new GameState(); 
         this.pirateShips = new ArrayList<>();
         this.seaMonsters = new ArrayList<>();
-        this.monsterZone = new FeatureGroup("Shallow Monsters"); // Recreate Composite group
-        this.columbusShip = null; // Ensure old subject is cleared if necessary
+        this.monsterZone = new FeatureGroup("Shallow Monsters"); 
+        this.columbusShip = null; 
 
         // Initialize characters and observers
         initializeCharacters();
@@ -63,8 +58,9 @@ public class GameManager {
 
         // Place Columbus
         // Ensure player starts at a valid position (not on potential future islands)
-        Position columbusStart = new Position(0, 0);
-        // TODO: Verify (0,0) is always ocean after map generation
+        // let's use random position
+        Position columbusStart = getRandomValidPosition(occupiedPositions);
+
         this.columbusShip = new ColumbusShip(columbusStart.getX(), columbusStart.getY());
         occupiedPositions.add(columbusStart);
 
@@ -72,7 +68,6 @@ public class GameManager {
         PirateShipFactory factory = new StandardPirateShipFactory();
         addPirate("PATROL", factory, occupiedPositions);
         addPirate("PREDICTIVE_CHASER", factory, occupiedPositions);
-        // TODO: Add more pirates/monsters, potentially from a config
 
         // Place Sea Monsters (Increased number)
         addSeaMonster(occupiedPositions);
@@ -84,7 +79,7 @@ public class GameManager {
         for(SeaMonster monster : this.seaMonsters) {
             this.monsterZone.addFeature(monster);
         }
-        // this.monsterZone.activate(); // Example: Activate group (monsters start active by default now)
+       
     }
 
     // Helper to add a pirate at a unique random position
@@ -130,14 +125,6 @@ public class GameManager {
         return pos;
     }
 
-    // Remove old getRandomPosition() - replaced by getRandomValidPosition
-    /*
-    private Position getRandomPosition() {
-        int x = random.nextInt(oceanMap.getWidth());
-        int y = random.nextInt(oceanMap.getHeight());
-        return new Position(x, y);
-    }
-    */
 
     private void setupObservers() {
         // Ensure Columbus exists before registering observers
@@ -164,19 +151,11 @@ public class GameManager {
         }
 
         System.out.println("GameManager: Processing player move: " + direction);
-        // 1. Update Columbus position based on direction
+
         columbusShip.move(direction); // Modify ColumbusShip.move to accept direction
 
-        // 2. Move pirates (and monsters later)
         moveNPCs();
-
-        // 3. Check win/lose conditions
         updateGameStatus();
-
-        // Columbus notifies observers AFTER moving (and potentially being caught)
-        // Note: ColumbusShip already calls notifyObservers in its move method - verify this is desired timing
-        // If move was invalid (e.g., out of bounds), notification might not be needed or desired here
-        // Notification is currently handled within ColumbusShip.move()
     }
 
     // Helper to move all non-player characters
@@ -234,10 +213,6 @@ public class GameManager {
         initializeGame(); // Re-initialize the game state
     }
 
-
-    // Removed startGameLoop method
-
-    // Removed checkWinCondition / checkLoseCondition (integrated into updateGameStatus)
 
     // Getters needed by the WebServer to serialize state
     public GameState getGameState() {

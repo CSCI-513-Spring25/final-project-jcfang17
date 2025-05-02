@@ -107,7 +107,7 @@ public abstract class PirateShip extends GameCharacter implements Observer {
                   // Predictive chase strategy
                   ((PredictiveChaseStrategy) this.movementStrategy).setTarget(columbus.getPosition());
              }
-             // Other strategies (like Patrol) might not need target updates here
+            
         }
     }
 } 

@@ -8,7 +8,6 @@ public class FeatureGroup implements OceanFeature {
 
     private List<OceanFeature> features = new ArrayList<>();
     private String groupName;
-    // Could add boundary definitions here
 
     public FeatureGroup(String groupName) {
         this.groupName = groupName;
@@ -38,5 +37,6 @@ public class FeatureGroup implements OceanFeature {
         }
     }
 
-    // Could add methods to check if a position is within the group's area
+    // usage: can be used for user to temperary disable a group of features, 
+    // like stopping pirates from chasing columbus for several turns
 } 

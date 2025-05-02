@@ -17,8 +17,6 @@ public class StandardPirateShipFactory extends PirateShipFactory {
 
         // Determine which type of pirate ship to create
         if ("CHASER".equalsIgnoreCase(type)) {
-            // Create a ChaserPirateShip, maybe with a default ChaseStrategy
-            // Note: The target for ChaseStrategy likely needs to be set elsewhere (e.g., by GameManager or Observer update)
             pirateShip = new ChaserPirateShip(position.getX(), position.getY(), new ChaseStrategy(null)); // Target initially null
         } else if ("PREDICTIVE_CHASER".equalsIgnoreCase(type)) {
             // Create a ChaserPirateShip with PredictiveChaseStrategy
@@ -27,7 +25,6 @@ public class StandardPirateShipFactory extends PirateShipFactory {
             // Create a PatrolPirateShip, maybe with a default PatrolStrategy
             pirateShip = new PatrolPirateShip(position.getX(), position.getY(), new PatrolStrategy());
         }
-        // Add more types if needed
 
         if (pirateShip == null) {
             throw new IllegalArgumentException("Unknown pirate ship type: " + type);

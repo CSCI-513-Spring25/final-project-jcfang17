@@ -93,7 +93,6 @@ public class OceanMap {
         } while ((x == 0 && y == 0) || isIsland(x, y));
 
         this.treasurePosition = new Position(x, y);
-        // Mark the cell - Optional, position is tracked separately
         // if (grid[y][x] != null) { grid[y][x].setHasTreasure(true); }
         System.out.println("Treasure placed at: [" + x + "," + y + "]");
     }

@@ -26,8 +26,6 @@ public class ColumbusShip extends GameCharacter implements Observable {
 
     @Override
     public void move() {
-        // Default move if no direction specified? Or remove this method?
-        // For now, let's make it do nothing to avoid accidental calls.
         System.out.println("ColumbusShip.move() called without direction - doing nothing.");
     }
 

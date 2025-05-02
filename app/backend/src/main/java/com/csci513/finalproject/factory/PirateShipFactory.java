@@ -13,14 +13,11 @@ public abstract class PirateShipFactory {
     // Can include other common methods shared by all factories
     public void prepareShip(PirateShip ship) {
         System.out.println("Preparing ship: " + ship.getClass().getSimpleName() + " at " + ship.getPosition());
-        // Add common preparation steps
     }
 
-    // Example of a method that uses the factory method
     public PirateShip orderPirateShip(String type, Position position) {
         PirateShip pirateShip = createPirateShip(type, position);
         prepareShip(pirateShip);
-        // You might register the observer here, or assign a default strategy etc.
         return pirateShip;
     }
 } 

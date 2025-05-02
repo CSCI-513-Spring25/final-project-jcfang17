@@ -85,8 +85,6 @@ public class WebServer extends NanoHTTPD {
         });
         mapJson.put("strategySwitchers", switchersJson);
 
-        // TODO: Add grid details if needed by frontend for rendering terrain
-
         JSONObject playerJson = new JSONObject();
         playerJson.put("x", gameManager.getColumbusShip().getPosition().getX());
         playerJson.put("y", gameManager.getColumbusShip().getPosition().getY());
@@ -100,7 +98,7 @@ public class WebServer extends NanoHTTPD {
             JSONObject pirateJson = new JSONObject();
             pirateJson.put("x", pirate.getPosition().getX());
             pirateJson.put("y", pirate.getPosition().getY());
-            pirateJson.put("type", pirate.getClass().getSimpleName()); // e.g., "ChaserPirateShip"
+            pirateJson.put("type", pirate.getClass().getSimpleName());
             piratesJson.put(pirateJson);
         });
 
@@ -135,10 +133,8 @@ public class WebServer extends NanoHTTPD {
         Map<String, String> files = new HashMap<>();
         session.parseBody(files); // Parses application/x-www-form-urlencoded or multipart/form-data
 
-        String postBody = files.get("postData"); // For urlencoded/raw body
+        String postBody = files.get("postData"); 
         if (postBody == null) {
-             // If content type is application/json, NanoHTTPD doesn't parse it automatically
-             // We need to read the input stream manually
              int contentLength = Integer.parseInt(session.getHeaders().get("content-length"));
              byte[] buf = new byte[contentLength];
              session.getInputStream().read(buf, 0, contentLength);

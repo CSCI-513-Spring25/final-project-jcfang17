@@ -40,5 +40,4 @@ public class MapCell {
         isStrategySwitcher = strategySwitcher;
     }
 
-    // TODO: Add properties like terrain type, containsPowerUp etc.
 } 
